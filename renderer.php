@@ -1696,7 +1696,6 @@ class mod_attendance_renderer extends plugin_renderer_base {
         if (!empty(get_config('attendance', 'studentscanmark'))) {
             $studentscanmark = true;
         }
-
         $table = new html_table();
         $table->width = '100%';
         $table->head = array('#',

@@ -45,6 +45,11 @@ function xmldb_attendance_upgrade($oldversion=0) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
+        $field2 = new xmldb_field('autoassignstatus');
+        $field2->set_attributes(XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        if (!$dbman->field_exists($table, $field2)) {
+            $dbman->add_field($table, $field2);
+        }
 
         upgrade_mod_savepoint(true, 2014112000, 'attendance');
     }
@@ -240,6 +245,10 @@ function xmldb_attendance_upgrade($oldversion=0) {
         $field->set_attributes(XMLDB_TYPE_CHAR, '50', null, false, null, '', 'studentscanmark');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
+        }
+        $field2->set_attributes(XMLDB_TYPE_CHAR, '50', null, false, null, '', 'autoassignstatus');
+        if (!$dbman->field_exists($table, $field2)) {
+            $dbman->add_field($table, $field2);
         }
 
         upgrade_mod_savepoint(true, 2017042800, 'attendance');
