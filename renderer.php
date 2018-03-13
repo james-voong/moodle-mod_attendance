@@ -824,6 +824,9 @@ class mod_attendance_renderer extends plugin_renderer_base {
                         'value' => $st->id);
                 if (array_key_exists($user->id, $takedata->sessionlog) and $st->id == $takedata->sessionlog[$user->id]->statusid) {
                     $params['checked'] = '';
+                    if ($st->acronym == 'C' && $st->description == 'Clear'){
+                        unset($params['checked']);
+                    }
                 }
 
                 $input = html_writer::empty_tag('input', $params);
@@ -1768,6 +1771,9 @@ class mod_attendance_renderer extends plugin_renderer_base {
 
         $i = 1;
         foreach ($prefdata->statuses as $st) {
+            if ($st->acronym == 'C' && $st->description == 'Clear') {
+                continue;
+            }
             $emptyacronym = '';
             $emptydescription = '';
             if (isset($prefdata->errors[$st->id]) && !empty(($prefdata->errors[$st->id]))) {

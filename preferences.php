@@ -87,6 +87,17 @@ switch ($att->pageparams->action) {
         }
 
         if ($pageparams->statusset > $maxstatusset) {
+            // Add a clear option to the new status set.
+            $newclearstatus = new stdClass();
+            $newclearstatus->attendanceid = $att->id;
+            $newclearstatus->acronym = 'C';
+            $newclearstatus->description = 'Clear';
+            $newclearstatus->grade = '0';
+            $newclearstatus->studentavailability = null;
+            $newclearstatus->setnumber = $att->pageparams->statusset;
+            $newclearstatus->cm = $att->cm;
+            $newclearstatus->context = $att->context;
+            attendance_add_status($newclearstatus);
             $maxstatusset = $pageparams->statusset; // Make sure the new maximum is shown without a page refresh.
         }
         break;
@@ -101,6 +112,13 @@ switch ($att->pageparams->action) {
 
         if (isset($confirm)) {
             attendance_remove_status($status);
+            $statusesupdated = attendance_get_statuses($att->id, false, $att->pageparams->statusset);
+            // If statusesupdated is 1 then only the 'Clear' option is left in the statusset.
+            if (count($statusesupdated) == 1) {
+                // Get the array key of the clear status so it can be removed.
+                $arraykeyofclearstatus = array_keys($statusesupdated);
+                attendance_remove_status($statusesupdated[$arraykeyofclearstatus[0]]);
+            }
             redirect($att->url_preferences(), get_string('statusdeleted', 'attendance'));
         }
 

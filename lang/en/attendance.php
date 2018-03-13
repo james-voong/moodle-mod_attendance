@@ -24,6 +24,8 @@
 
 $string['Aacronym'] = 'A';
 $string['Afull'] = 'Absent';
+$string['Cacronym'] = 'C';
+$string['Cfull'] = 'Clear';
 $string['Eacronym'] = 'E';
 $string['Efull'] = 'Excused';
 $string['Lacronym'] = 'L';
