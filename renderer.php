@@ -439,6 +439,10 @@ class mod_attendance_renderer extends plugin_renderer_base {
 
         $statsoutput = '<br/>';
         foreach ($takedata->statuses as $status) {
+            // Do not print the clear status.
+            if ($status->acronym == 'C' && $status->description == 'Clear') {
+                continue;
+            }
             $statsoutput .= "$status->description = ".$sessionstats[$status->id]." <br/>";
         }
 
